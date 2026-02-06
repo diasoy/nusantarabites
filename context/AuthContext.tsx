@@ -1,5 +1,5 @@
 import { storage } from "@/lib/storage";
-import { authService } from "@/services/auth";
+import { authService } from "@/services/auth.service";
 import { AuthContextType, AuthState, LoginPayload } from "@/types/auth";
 import React, {
     createContext,

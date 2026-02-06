@@ -26,30 +26,16 @@ class ApiService {
   ): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`;
 
-    // Debug logging
-    console.log("🌐 API Request:", {
-      url,
-      method: options?.method || "GET",
-      endpoint,
-      baseUrl: API_BASE_URL,
-    });
-
-    // Get token from storage
     const token = await this.getAuthToken();
     const config: RequestInit = {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        // Add authorization header if token exists
         ...(token && { Authorization: `Bearer ${token}` }),
         ...options?.headers,
       },
     };
 
-    // Log request body for POST/PUT
-    if (options?.body) {
-      console.log("📤 Request Body:", options.body);
-    }
 
     try {
       const response = await fetch(url, config);
@@ -65,10 +51,7 @@ class ApiService {
           errorData,
         });
 
-        // Handle 401 Unauthorized - token expired or invalid
         if (response.status === 401) {
-          // You can trigger logout or token refresh here
-          // For now, just throw the error
           throw new Error(
             errorData.message || "Unauthorized - Please login again",
           );
