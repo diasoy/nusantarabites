@@ -1,3 +1,4 @@
+import { useDebounce } from "@/hooks/useDebounce";
 import { useProducts } from "@/hooks/useProduct";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
@@ -18,13 +19,14 @@ export default function ProductScreen() {
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   // Fetch products from API
   const { data, isLoading, isError, error, refetch, isRefetching } =
     useProducts({
       page: 1,
       size: 100,
-      search: searchQuery || undefined,
+      search: debouncedSearchQuery || undefined,
       category: selectedCategory ? Number(selectedCategory) : undefined,
     });
 
@@ -54,33 +56,41 @@ export default function ProductScreen() {
 
           {/* Categories */}
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {categories.map((category) => (
-              <Pressable
-                key={category}
-                onPress={() =>
-                  setSelectedCategory(
-                    category === "Semua" ? undefined : category,
-                  )
-                }
-                className={`mr-3 px-4 py-2 rounded-full ${
-                  (category === "Semua" && !selectedCategory) ||
-                  selectedCategory === category
-                    ? "bg-orange-500"
-                    : "bg-gray-200"
-                }`}
-              >
-                <Text
-                  className={`font-semibold ${
+            {categories.map((category) => {
+              const categoryNames: Record<string, string> = {
+                "1": "Frozen Food",
+                "2": "Sambal",
+                "3": "Rempah Rempah",
+              };
+
+              return (
+                <Pressable
+                  key={category}
+                  onPress={() =>
+                    setSelectedCategory(
+                      category === "Semua" ? undefined : category,
+                    )
+                  }
+                  className={`mr-3 px-4 py-2 rounded-full ${
                     (category === "Semua" && !selectedCategory) ||
                     selectedCategory === category
-                      ? "text-white"
-                      : "text-gray-700"
+                      ? "bg-orange-500"
+                      : "bg-gray-200"
                   }`}
                 >
-                  {category === "Semua" ? "Semua" : `Kategori ${category}`}
-                </Text>
-              </Pressable>
-            ))}
+                  <Text
+                    className={`font-semibold ${
+                      (category === "Semua" && !selectedCategory) ||
+                      selectedCategory === category
+                        ? "text-white"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {category === "Semua" ? "Semua" : categoryNames[category]}
+                  </Text>
+                </Pressable>
+              );
+            })}
           </ScrollView>
         </View>
 
