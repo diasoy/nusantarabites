@@ -16,7 +16,7 @@ export default function ProductDetailScreen() {
   const { data: product, isLoading, isError } = useProductDetail(id);
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-white" edges={["top", "bottom"]}>
       <Stack.Screen
         options={{
           headerShown: false,
@@ -36,10 +36,10 @@ export default function ProductDetailScreen() {
       )}
 
       {product && (
-        <>
+        <View className="flex-1">
           <ScrollView
             className="flex-1"
-            contentContainerStyle={{ paddingBottom: 100 }}
+            contentContainerStyle={{ paddingBottom: 16 }}
           >
             {/* Image */}
             <Image
@@ -74,8 +74,8 @@ export default function ProductDetailScreen() {
             </View>
           </ScrollView>
 
-          {/* Fixed Bottom Button */}
-          <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-50 px-6 py-4 shadow-lg">
+          {/* Fixed Bottom Button - Inside SafeAreaView */}
+          <View className="bg-white border-t border-gray-50 px-6 py-4">
             <Pressable className="bg-orange-500 rounded-xl py-4 flex-row items-center justify-center active:bg-orange-600">
               <Ionicons name="cart" size={24} color="white" />
               <Text className="text-white text-center font-bold text-lg ml-2">
@@ -83,7 +83,7 @@ export default function ProductDetailScreen() {
               </Text>
             </Pressable>
           </View>
-        </>
+        </View>
       )}
     </SafeAreaView>
   );
