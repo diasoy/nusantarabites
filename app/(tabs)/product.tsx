@@ -1,6 +1,7 @@
 import { useDebounce } from "@/hooks/useDebounce";
 import { useProducts } from "@/hooks/useProduct";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { useState } from "react";
 import {
   ActivityIndicator,
@@ -145,7 +146,13 @@ export default function ProductScreen() {
           {!isLoading && !isError && products.length > 0 && (
             <View className="flex-row flex-wrap">
               {products.map((item) => (
-                <View key={item.id} className="w-1/2 px-2 mb-4">
+                <Pressable
+                  key={item.id}
+                  onPress={() => {
+                    router.push(`/product/${item.id.toString()}` as any);
+                  }}
+                  className="w-1/2 px-2 mb-4"
+                >
                   <View className="bg-white rounded-2xl shadow-md">
                     <View>
                       <Image
@@ -201,7 +208,7 @@ export default function ProductScreen() {
                       </Text>
                     </View>
                   </View>
-                </View>
+                </Pressable>
               ))}
             </View>
           )}

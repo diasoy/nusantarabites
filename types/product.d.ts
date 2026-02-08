@@ -28,3 +28,20 @@ export interface ProductQueryParams {
   search?: string;
   category?: number;
 }
+
+export interface ProductDetailResponse {
+  data: {
+    id: number;
+    name: string;
+    slug: string;
+    image_url: string;
+    price: number;
+    price_before_discount: number | null;
+    description: string | null;
+    category_id: number;
+    category_name: string;
+    is_active: boolean;
+    created_at: number;
+    updated_at: number;
+  };
+}

@@ -1,4 +1,8 @@
-import { ProductQueryParams, ProductResponse } from "@/types/product";
+import {
+  ProductDetailResponse,
+  ProductQueryParams,
+  ProductResponse,
+} from "@/types/product";
 import { api } from "./api";
 
 class ProductService {
@@ -18,6 +22,11 @@ class ProductService {
     const response = await api.get<ProductResponse>(
       `/products?${queryParams.toString()}`,
     );
+    return response.data;
+  }
+
+  async getProductDetail(id: string) {
+    const response = await api.get<ProductDetailResponse>(`/products/${id}`);
     return response.data;
   }
 }

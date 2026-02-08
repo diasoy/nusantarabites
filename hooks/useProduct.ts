@@ -9,3 +9,11 @@ export function useProducts(params?: ProductQueryParams) {
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 }
+
+export function useProductDetail(id: string) {
+  return useQuery({
+    queryKey: ["product", id],
+    queryFn: () => productService.getProductDetail(id),
+    staleTime: 1000 * 60 * 5,
+  });
+}
